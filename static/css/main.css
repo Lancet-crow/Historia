@@ -19,6 +19,10 @@ body {
     background-color: #ffffff;
 }
 
+.site-header a {
+    color: white;
+}
+
 .box {
     height: 800px;
     background-size: cover;
