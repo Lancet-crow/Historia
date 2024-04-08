@@ -12,22 +12,21 @@
 </head>
 <body>
     <header>
-        <div class="box background-tint">
+        <div class="box tint">
             <h1>Historia</h1>
-            <h2>Проект, посвящённый развитию интереса к истории</h2>
+            <h2>История может быть интересной, нужно лишь искать</h2>
         </div>
-        {% if current_user.is_authenticated %}
-        <div class="to-right">
-            <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+        <div class="site-header">
+            <a class="btn" href="/">Главная</a>
+            {% if current_user.is_authenticated %}
+                <a class="navbar-brand to-right" href="/logout">{{ current_user.name }}</a>
+            {% else %}
+                <p class="to-right">
+                    <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                    <a class="btn btn-success" href="/login">Войти</a>
+                </p>
+            {% endif %}
         </div>
-        {% else %}
-        <div class="to-right">
-            <p>
-                <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
-                <a class="btn btn-success" href="/login">Войти</a>
-            </p>
-        </div>
-        {% endif %}
     </header>
   <main role="main" class="container">
     {% block content %}{% endblock %}

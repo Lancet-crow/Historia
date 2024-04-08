@@ -1,4 +1,4 @@
-html, h1 {
+html, h1, h2, p, a {
     margin: 0;
     padding: 0;
 }
@@ -10,6 +10,15 @@ body {
     font-color: white;
 }
 
+.site-header {
+    height: 50px;
+    padding-right: 0.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+
 .box {
     height: 800px;
     background-size: cover;
@@ -17,24 +26,24 @@ body {
     background-position: bottom center;
     font-family: Verdana, Geneva, sans-serif;
     font-weight: 300;
+    text-align: center;
 }
 .box h1 {
-    font-size: 1000%;
-    text-align: center;
+    font-size: 900%;
     position: relative;
     top: 40%;
     transform: translateY(-50%);
 }
 
 .box h2 {
-    font-size: 300%;
+    font-size: 250%;
     text-align: center;
     position: relative;
     top: 40%;
     transform: translateY(-50%);
 }
 
-.background-tint {
+.tint {
     background-color: rgba(29,29,29,.75);
     background-blend-mode: multiply;
 }
