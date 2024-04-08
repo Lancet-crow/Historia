@@ -7,6 +7,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #3E4B66;
+    font-color: white;
 }
 
 .box {
@@ -36,4 +37,8 @@ body {
 .background-tint {
     background-color: rgba(29,29,29,.75);
     background-blend-mode: multiply;
+}
+
+.to-right {
+    float: right;
 }
