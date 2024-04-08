@@ -1,6 +1,39 @@
+html, h1 {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     margin: 0;
     padding: 0;
     background-color: #3E4B66;
 }
 
+.box {
+    height: 800px;
+    background-size: cover;
+    background-image: url('../img/header-img.svg');
+    background-position: bottom center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: 300;
+}
+.box h1 {
+    font-size: 1000%;
+    text-align: center;
+    position: relative;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+.box h2 {
+    font-size: 300%;
+    text-align: center;
+    position: relative;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+.background-tint {
+    background-color: rgba(29,29,29,.75);
+    background-blend-mode: multiply;
+}
