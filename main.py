@@ -21,6 +21,7 @@ def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
+
 @app.route('/')
 def main_page():
     return render_template('main_page.html', title=_l("Main Page"))

@@ -3,11 +3,19 @@ html, h1, h2, p, a {
     padding: 0;
 }
 
+.to-right {
+    float: right;
+}
+
 body {
     margin: 0;
     padding: 0;
     background-color: #3E4B66;
-    font-color: white;
+    color: white;
+}
+
+body .btn {
+    color: white;
 }
 
 .site-header {
@@ -16,9 +24,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #272F3F;
 }
 
+.site-header .btn,
 .site-header a {
     color: white;
 }
@@ -32,6 +41,7 @@ body {
     font-weight: 300;
     text-align: center;
 }
+
 .box h1 {
     font-size: 900%;
     position: relative;
@@ -50,8 +60,4 @@ body {
 .tint {
     background-color: rgba(29,29,29,.75);
     background-blend-mode: multiply;
-}
-
-.to-right {
-    float: right;
 }
