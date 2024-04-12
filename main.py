@@ -1,7 +1,5 @@
 from flask import Flask, render_template, redirect
-from flask_babel import Babel
-from flask_babel import lazy_gettext as _l
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from config import SECRET_KEY
 from data import db_session
@@ -10,8 +8,7 @@ from forms.user import LoginForm, RegisterForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-babel = Babel(app)
-app.config['BABEL_LANGUAGES'] = ['en', 'ru']
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -22,31 +19,50 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main_page():
-    return render_template('main_page.html', title=_l("Main Page"))
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def reqister():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
+            return render_template('main_page.html', title="Main Page", form=form, message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Такой пользователь уже есть")
+            return render_template('main_page.html', title="Main Page", form=form, message="Такой пользователь уже есть")
         user = User()
         user.name, user.email, user.about = form.name.data, form.email.data, form.about.data
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
-        return redirect('/login')
-    return render_template('register.html', title='Регистрация', form=form)
+    return render_template('main_page.html', title="Main Page", form=form)
+
+
+@app.route('/profile/<username>')
+@login_required
+def profile(username):
+    if username == current_user.name:
+        return render_template('profile.html', user=current_user)
+
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def reqister():
+#     form = RegisterForm()
+#     if form.validate_on_submit():
+#         if form.password.data != form.password_again.data:
+#             return render_template('register.html', title='Регистрация',
+#                                    form=form,
+#                                    message="Пароли не совпадают")
+#         db_sess = db_session.create_session()
+#         if db_sess.query(User).filter(User.email == form.email.data).first():
+#             return render_template('register.html', title='Регистрация',
+#                                    form=form,
+#                                    message="Такой пользователь уже есть")
+#         user = User()
+#         user.name, user.email, user.about = form.name.data, form.email.data, form.about.data
+#         user.set_password(form.password.data)
+#         db_sess.add(user)
+#         db_sess.commit()
+#         return redirect('/login')
+#     return render_template('register.html', title='Регистрация', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
