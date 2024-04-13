@@ -11,7 +11,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #3E4B66;
-    color: white;
 }
 
 body .btn {
@@ -27,8 +26,7 @@ body .btn {
     background-color: #272F3F;
 }
 
-.site-header .btn,
-.site-header a {
+.site-header .btn{
     color: white;
 }
 
@@ -40,6 +38,7 @@ body .btn {
     font-family: Verdana, Geneva, sans-serif;
     font-weight: 300;
     text-align: center;
+    color: white;
 }
 
 .box h1 {
@@ -60,4 +59,8 @@ body .btn {
 .tint {
     background-color: rgba(29,29,29,.75);
     background-blend-mode: multiply;
+}
+
+.bg-body-tertiary {
+    --bs-bg-opacity: 0;
 }
