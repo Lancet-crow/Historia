@@ -16,7 +16,7 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
-    return db_sess.query(User).get(user_id)
+    return db_sess.get(User, user_id)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,11 +27,11 @@ def main_page():
     if reg_form.validate_on_submit():
         if reg_form.password.data != reg_form.password_again.data:
             return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form,
-                                   message="Пароли не совпадают")
+                                   register_message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == reg_form.email.data).first():
             return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form,
-                                   message="Такой пользователь уже есть")
+                                   register_message="Такой пользователь уже есть")
         user = User()
         user.name, user.email, user.about = reg_form.name.data, reg_form.email.data, reg_form.about.data
         user.set_password(reg_form.password.data)
@@ -45,7 +45,7 @@ def main_page():
             login_user(user, remember=log_form.remember_me.data)
             return redirect("/")
         return render_template('main_page.html', title="Main Page",
-                               message="Неправильный логин или пароль", reg_form=reg_form, log_form=log_form)
+                               login_message="Неправильный логин или пароль", reg_form=reg_form, log_form=log_form)
     return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form)
 
 
@@ -54,6 +54,7 @@ def main_page():
 def profile(username):
     if username == current_user.name:
         return render_template('profile.html', user=current_user)
+    return redirect("/")
 
 
 
