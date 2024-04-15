@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="loginModalLabel">Войти в систему</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {{ log_form.hidden_tag() }}
+                        <p>
+                            {{ log_form.email.label }}<br>
+                            {{ log_form.email(class="form-control", type="email") }}<br>
+                            {% for error in log_form.email.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                        </p>
+                        <p>
+                            {{ log_form.password.label }}<br>
+                            {{ log_form.password(class="form-control", type="password") }}<br>
+                            {% for error in log_form.password.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                        </p>
+                        <p>
+                            {{ log_form.remember_me.label }}<br>
+                            {{ log_form.remember_me }}
+                        </p>
+                        <p>{{ log_form.submit(type="submit", class="btn btn-primary") }}</p>
+                        {{login_message}}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+                $(window).on('load', function() {
+                    $('#loginModal').modal('show');
+                });
+                $(window).on('load', function() {
+                    $('#regLogButtons').hide();
+                });
+    </script>
+{% endblock %}

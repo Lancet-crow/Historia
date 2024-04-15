@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from config import SECRET_KEY
@@ -19,34 +19,9 @@ def load_user(user_id):
     return db_sess.get(User, user_id)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def main_page():
-    reg_form = RegisterForm()
-    log_form = LoginForm()
-
-    if reg_form.validate_on_submit():
-        if reg_form.password.data != reg_form.password_again.data:
-            return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form,
-                                   register_message="Пароли не совпадают")
-        db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == reg_form.email.data).first():
-            return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form,
-                                   register_message="Такой пользователь уже есть")
-        user = User()
-        user.name, user.email, user.about = reg_form.name.data, reg_form.email.data, reg_form.about.data
-        user.set_password(reg_form.password.data)
-        db_sess.add(user)
-        db_sess.commit()
-
-    if log_form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == log_form.email.data).first()
-        if user and user.check_password(log_form.password.data):
-            login_user(user, remember=log_form.remember_me.data)
-            return redirect("/")
-        return render_template('main_page.html', title="Main Page",
-                               login_message="Неправильный логин или пароль", reg_form=reg_form, log_form=log_form)
-    return render_template('main_page.html', title="Main Page", reg_form=reg_form, log_form=log_form)
+    return render_template('main_page.html', title="Main Page")
 
 
 @app.route('/profile/<username>')
@@ -56,6 +31,50 @@ def profile(username):
         return render_template('profile.html', user=current_user)
     return redirect("/")
 
+
+@app.route('/test_page')
+def test_page():
+    return render_template('test_page.html', title="TEST Page")
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    reg_form = RegisterForm()
+    referrer = request.args.get('redirected_from')
+    referrer = "/" if not referrer else referrer
+    if reg_form.validate_on_submit():
+        if reg_form.password.data != reg_form.password_again.data:
+            return render_template('register.html', title="Register Page", reg_form=reg_form,
+                                   register_message="Пароли не совпадают")
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == reg_form.email.data).first():
+            return render_template('register.html', title="Register Page", reg_form=reg_form,
+                                   register_message="Такой пользователь уже есть")
+        if reg_form.form_errors:
+            return render_template('register.html', title="Register Page", reg_form=reg_form,
+                                   register_message="Допущена ошибка в данных")
+        user = User()
+        user.name, user.email, user.about = reg_form.name.data, reg_form.email.data, reg_form.about.data
+        user.set_password(reg_form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect("/login?redirected_from=" + referrer)
+    return render_template('register.html', title="Register Page", reg_form=reg_form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    log_form = LoginForm()
+    referrer = request.args.get('redirected_from')
+    referrer = "/" if not referrer else referrer
+    if log_form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == log_form.email.data).first()
+        if user and user.check_password(log_form.password.data):
+            login_user(user, remember=log_form.remember_me.data)
+            return redirect(referrer)
+        return render_template('login.html', title="Login Page", log_form=log_form,
+                               login_message="Неправильный логин или пароль")
+    return render_template('login.html', title="Login Page", log_form=log_form)
 
 @app.route('/logout')
 @login_required
