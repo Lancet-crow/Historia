@@ -57,7 +57,6 @@ def profile(username):
     return redirect("/")
 
 
-
 @app.route('/logout')
 @login_required
 def logout():

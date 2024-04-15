@@ -160,13 +160,13 @@
     {% if register_message %}
         <script type="text/javascript">
             $(window).on('load', function() {
-                $('#loginModal').modal('show');
+                $('#registerModal').modal('show');
             });
         </script>
     {% elif login_message %}
         <script type="text/javascript">
             $(window).on('load', function() {
-                $('#registerModal').modal('show');
+                $('#loginModal').modal('show');
             });
         </script>
     {% endif %}
