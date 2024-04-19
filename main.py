@@ -34,7 +34,7 @@ def profile(username):
 
 @app.route('/test_page')
 def test_page():
-    return render_template('test_page.html', title="TEST Page")
+    return render_template('create_article.html', title="TEST Page")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -61,6 +61,7 @@ def register():
         return redirect("/login?redirected_from=" + referrer)
     return render_template('register.html', title="Register Page", reg_form=reg_form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     log_form = LoginForm()
@@ -75,6 +76,7 @@ def login():
         return render_template('login.html', title="Login Page", log_form=log_form,
                                login_message="Неправильный логин или пароль")
     return render_template('login.html', title="Login Page", log_form=log_form)
+
 
 @app.route('/logout')
 @login_required

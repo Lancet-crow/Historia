@@ -13,10 +13,6 @@ body {
     background-color: #3E4B66;
 }
 
-body .btn {
-    color: white;
-}
-
 .site-header {
     height: 50px;
     padding-right: 0.5%;

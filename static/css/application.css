@@ -125,6 +125,14 @@
   background-color: #475570;
 }
 
-.btn{
-    color: white;
+#regLogButtons .btn,
+#regLogButtons .btn a:active,
+#saveEditButtons .btn,
+#saveEditButtons .btn a:active {
+    background-color: #272F3F;
+    color: #ffffff;
+}
+.navbar .dropdown-toggle,
+.navbar .dropdown-toggle .show a {
+    color: #ffffff;
 }
