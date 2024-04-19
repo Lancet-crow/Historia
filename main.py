@@ -5,6 +5,7 @@ from config import SECRET_KEY
 from data import db_session
 from data.users import User
 from forms.user import LoginForm, RegisterForm
+from image_uploader import upload_image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -34,6 +35,12 @@ def profile(username):
 
 @app.route('/test_page')
 def test_page():
+    return render_template('create_article.html', title="TEST Page")
+
+
+@app.route('/image_uploader')
+def upload_img():
+    upload_image(files)
     return render_template('create_article.html', title="TEST Page")
 
 
