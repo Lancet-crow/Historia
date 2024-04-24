@@ -1,17 +1,63 @@
-from flask import Flask, render_template, redirect, request
+import json
+import os
+import sys
+
+import slugify as slugify
+import wand.image
+from flask import Flask, render_template, redirect, request, send_from_directory, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from config import SECRET_KEY
 from data import db_session
+from data.entries import Article
 from data.users import User
 from forms.user import LoginForm, RegisterForm
-from image_uploader import upload_image
+from froala_dependencies import Image, FlaskAdapter
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+publicDirectory = os.path.join(BASE_DIR, "public")
+if not os.path.exists(publicDirectory):
+    os.makedirs(publicDirectory)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@app.route("/public/<path:path>")
+def get_public(path):
+    return send_from_directory("public/", path)
+
+
+@app.route("/upload_image", methods=["POST"])
+def upload_image():
+    try:
+        response = Image.upload(FlaskAdapter(request), "/public/")
+    except Exception:
+        response = {"error": str(sys.exc_info()[1])}
+    return json.dumps(response)
+
+
+@app.route("/upload_image_validation", methods=["POST"])
+def upload_image_validation():
+    def validation(filePath, mimetype):
+        with wand.image.Image(filename=filePath) as img:
+            if img.width != img.height:
+                return False
+            return True
+
+    options = {
+        "fieldname": "myImage",
+        "validation": validation
+    }
+
+    try:
+        response = Image.upload(FlaskAdapter(request), "/public/", options)
+    except Exception:
+        response = {"error": str(sys.exc_info()[1])}
+    return json.dumps(response)
 
 
 @login_manager.user_loader
@@ -33,21 +79,25 @@ def profile(username):
     return redirect("/")
 
 
-@app.route('/test_page')
+@app.route('/test_page', methods=["GET", "POST"])
 def test_page():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        slug = slugify.slugify(title)
+        db_sess = db_session.create_session()
+        article = Article(title=title, content=content, slug=slug)
+        db_sess.add(article)
+        db_sess.commit()
+        return redirect(url_for('article', slug=slug))
     return render_template('create_article.html', title="TEST Page")
 
 
-@app.route('/save_entry')
-def save_entry():
-    print("IT WORKS!")
-
-
-@app.route('/image_uploader', methods=['POST'])
-def upload_img():
-    print("SOMETHING")
-    url = upload_image(request.form["data"])
-    return url
+@app.route("/article/<slug>")
+def article(slug):
+    db_sess = db_session.create_session()
+    article = db_sess.query(Article).filter(slug=slug).first()
+    return render_template("article.html", article=article)
 
 
 @app.route('/register', methods=['GET', 'POST'])
