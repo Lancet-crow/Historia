@@ -38,10 +38,16 @@ def test_page():
     return render_template('create_article.html', title="TEST Page")
 
 
-@app.route('/image_uploader')
+@app.route('/save_entry')
+def save_entry():
+    print("IT WORKS!")
+
+
+@app.route('/image_uploader', methods=['POST'])
 def upload_img():
-    upload_image(files)
-    return render_template('create_article.html', title="TEST Page")
+    print("SOMETHING")
+    url = upload_image(request.form["data"])
+    return url
 
 
 @app.route('/register', methods=['GET', 'POST'])

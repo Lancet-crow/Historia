@@ -24,3 +24,4 @@ def upload_image(files):
         image = insert(Uploads.file).values(destination_file_path)
         db_sess.add(image)
         db_sess.commit()
+        return destination_file_path
