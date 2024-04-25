@@ -1,7 +1,25 @@
 {% extends "index.html" %}
 
 {% block content %}
-  <div class="article-content">
-      {{ article.content|safe }}
-  </div>
+    <article>
+        <h2 id="title">{{ article.title }}</h2>
+        <br>
+        <div class="article-content" style="display: inline-block">
+            {{ article.content|safe }}
+        </div>
+        <br>
+        {% if current_user.id == article.user_id %}
+            {% if article.is_private == 0 %}
+                    <a class="btn btn-dark-button to-right"
+                       href="{{ '/publicate_article/%s'%article.slug|urlencode }}">Отправить на публикацию</a>
+                {% endif %}
+            <a class="btn btn-dark-button to-right"
+               href="{{ '/edit_article/%s'%article.slug|urlencode }}">Редактировать</a>
+        {% endif %}
+    </article>
+    <style>
+        #title {
+            color: white;
+        }
+    </style>
 {% endblock %}

@@ -1,81 +1,82 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="registerModalLabel">Регистрация</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
+<div id="registerModal">
+    <form action="" method="post">
+      {{ reg_form.hidden_tag() }}
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingEmail" name="email"
+               placeholder="name@example.com" autocomplete="email"><br>
+        <label for="floatingEmail">{{ reg_form.email.label }}</label>
+        {% for error in reg_form.email.errors %}
+          <p class="alert alert-danger" role="alert">
+            {{ error }}
+          </p>
+        {% endfor %}
       </div>
-      <div class="modal-body">
-        <form action="" method="post">
-          {{ reg_form.hidden_tag() }}
-          <p>
-            {{ reg_form.email.label }}<br>
-            {{ reg_form.email(class="form-control", type="email") }}<br>
-            {% for error in reg_form.email.errors %}
+      <div class="form-floating password">
+        <input type="password" class="form-control" id="floatingPassword" name="password"
+               placeholder="Password" autocomplete="new-password"><br>
+        <a href="#" class="password-control"></a>
+        <label for="floatingPassword">{{ reg_form.password.label }}</label>
+        {% for error in reg_form.password.errors %}
           <p class="alert alert-danger" role="alert">
             {{ error }}
           </p>
-          {% endfor %}
-          </p>
-          <p>
-            {{ reg_form.password.label }}<br>
-            {{ reg_form.password(class="form-control", type="password") }}<br>
-            {% for error in reg_form.password.errors %}
-          <p class="alert alert-danger" role="alert">
-            {{ error }}
-          </p>
-          {% endfor %}
-          </p>
-          <p>
-            {{ reg_form.password_again.label }}<br>
-            {{ reg_form.password_again(class="form-control", type="password") }}<br>
-            {% for error in reg_form.password_again.errors %}
-          <p class="alert alert-danger" role="alert">
-            {{ error }}
-          </p>
-          {% endfor %}
-          </p>
-          <p>
-            {{ reg_form.name.label }}<br>
-            {{ reg_form.name(class="form-control") }}<br>
-            {% for error in reg_form.name.errors %}
-          <p class="alert alert-danger" role="alert">
-            {{ error }}
-          </p>
-          {% endfor %}
-          </p>
-          <p>
-            {{ reg_form.about.label }}<br>
-            {{ reg_form.about(class="form-control") }}<br>
-            {% for error in reg_form.about.errors %}
-          <p class="alert alert-danger" role="alert">
-            {{ error }}
-          </p>
-          {% endfor %}
-          </p>
-          <p>{{ reg_form.submit(type="submit", class="btn btn-primary") }}</p>
-          {{register_message}}
-        </form>
+        {% endfor %}
       </div>
-      <div class="modal-footer">
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPasswordAgain"
+               name="password_again" placeholder="Password" autocomplete="on"><br>
+        <label for="floatingPasswordAgain">{{ reg_form.password_again.label }}</label>
+        {% for error in reg_form.password_again.errors %}
+          <p class="alert alert-danger" role="alert">
+            {{ error }}
+          </p>
+        {% endfor %}
       </div>
-    </div>
-  </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingName"
+               name="name" placeholder="Name" autocomplete="username"><br>
+        <label for="floatingName">{{ reg_form.name.label }}</label>
+        {% for error in reg_form.name.errors %}
+          <p class="alert alert-danger" role="alert">
+            {{ error }}
+          </p>
+        {% endfor %}
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingAbout"
+               name="about" placeholder="Name"><br>
+        <label for="floatingAbout">{{ reg_form.about.label }}</label>
+        {% for error in reg_form.about.errors %}
+          <p class="alert alert-danger" role="alert">
+            {{ error }}
+          </p>
+        {% endfor %}
+      </div>
+      <btn class="btn btn-dark-button" type="submit">Зарегистрироваться</btn>
+      {{register_message}}
+    </form>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script type="text/javascript">
-            $(window).on('load', function() {
-                $('#registerModal').modal('show');
-            });
-            $(window).on('load', function() {
-                $('#regLogButtons').hide();
-            });
+      $(window).on('load', function() {
+          $('#regLogButtons').hide();
+      });
+</script>
+<script>
+    $('body').on('click', '.password-control', function(){
+      if ($('#floatingPassword').attr('type') == 'password'){
+          $(this).addClass('view');
+          $('#floatingPassword').attr('type', 'text');
+      } else {
+          $(this).removeClass('view');
+          $('#floatingPassword').attr('type', 'password');
+      }
+      return false;
+  });
 </script>
 {% endblock %}

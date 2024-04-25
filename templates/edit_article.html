@@ -12,15 +12,23 @@
     <br>
     <div class="editor">
         <form method="POST">
-            <input class="form-control" type="text" name="title" placeholder="Название статьи">
+            <input class="form-control" type="text" name="title" placeholder="Название статьи"
+            value="{{ title }}">
             <br>
-            <input class="form-control" type="text" name="small_desc" placeholder="Краткое описание">
+            <input class="form-control" type="text" name="small_desc" placeholder="Краткое описание"
+            value="{{ small_desc }}">
             <br>
-            <textarea id="edit" name="content"></textarea>
+            <textarea id="edit" name="content">{{ content }}</textarea>
             <br>
-            <button class="submit btn btn-dark-button">Сохранить статью</button>
+            <button class="submit btn btn-dark-button">Submit</button>
         </form>
     </div>
+    <style>
+        .site-footer{
+            position: relative;
+            vertical-align: bottom;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
@@ -30,5 +38,7 @@
             src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/plugins/file.min.js"></script>
     <script type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/plugins/image.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/plugins/image_manager.min.js"></script>
     <script src="../static/js/froala_editor.js"></script>
 {% endblock %}

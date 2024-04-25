@@ -1,13 +1,7 @@
-{% extends "index.html" %}
-
-{% block scripts %}
-
-{% endblock %}
-
+{% extends 'index.html' %}
 {% block content %}
-    <h2>Добро пожаловать домой, {{ current_user.name }}!</h2>
     <br>
-    <a class="btn btn-dark-button" href="/create_article">Создать статью</a>
+    <a class="btn btn-dark-button" href="/test_page">Создать статью</a>
     <br>
     {% for article in articles %}
        <br>
@@ -16,6 +10,7 @@
             <h3>{{ article.title }}</h3>
             <p>{{ article.small_desc }}</p>
             <a class="btn btn-dark-button" href="{{ '/edit_article/%s'%article.slug|urlencode }}">Редактировать</a>
+            <a class="btn btn-dark-button" href="{{ '/post_article/%s'%article.slug|urlencode }}">Выложить</a>
         </div>
         <br>
     {% endfor %}

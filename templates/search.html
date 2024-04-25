@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block content %}
+    {% if result_search is not none %}
+      {% for article in result_search %}
+          <div>
+            <br>
+            {% set article_url = '/article/%s'%article.slug|urlencode %}
+            <div class="article-content clickable-article" onclick="location.href='{{ article_url }}'">
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.small_desc }}</p>
+            </div>
+            <br>
+          </div>
+      {% endfor %}
+    {% else %}
+        <p>Пусто</p>
+    {% endif %}
+{% endblock %}

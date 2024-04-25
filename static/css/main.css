@@ -13,6 +13,11 @@ body {
     background-color: #3E4B66;
 }
 
+main {
+    margin: 0;
+    padding: 0;
+}
+
 .site-header {
     height: 50px;
     padding-right: 0.5%;
@@ -22,8 +27,16 @@ body {
     background-color: #272F3F;
 }
 
-.site-header .btn{
+.site-header .btn, .site-footer .btn {
     color: white;
+}
+
+.site-footer {
+    background-color: #272F3F;
+    height: 80px;
+    width: 100%;
+    position: absolute;
+    bottom:0;
 }
 
 .box {
@@ -59,4 +72,69 @@ body {
 
 .bg-body-tertiary {
     --bs-bg-opacity: 0;
+}
+
+.article-content {
+    padding: 5px;
+    display: inline-block;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px  ;
+}
+
+.clickable-article:hover {
+    background-color: #e6e6e6;
+}
+
+.btn-dark-button {
+    color: #fff;
+    background-color: #272F3F;
+    border-color: #272f40;
+}
+.btn-dark-button:hover, .btn-dark-button:focus, .btn-dark-button:active,
+ .btn-dark-button.active, .open>.dropdown-toggle.btn-dark-button {
+    color: #fff;
+    background-color: #13171f;
+    border-color: #272f40;
+}
+.btn-dark-button-outline {
+    color: #fff;
+    border: solid 1px;
+    border-color: #272f40;
+}
+.btn-dark-button-outline:hover, .btn-dark-button-outline:focus, .btn-dark-button-outline:active,
+ .btn-dark-button-outline.active, .open>.dropdown-toggle.btn-dark-button-outline {
+    color: #fff;
+    border: solid 1px;
+    background-color: #13171f;
+    border-color: #272f40;
+}
+
+.password {
+	margin: 15px auto;
+	position: relative;
+}
+#password-input {
+	width: 100%;
+	padding: 5px 0;
+	height: 30px;
+	line-height: 40px;
+	text-indent: 10px;
+	margin: 0 0 15px 0;
+	border-radius: 5px;
+	border: 1px solid #999;
+	font-size: 18px;
+}
+.password-control {
+	position: absolute;
+	vertical-align: center;
+	top: 20px;
+	right: 10px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(https://snipp.ru/demo/495/view.svg) 0 0 no-repeat;
+}
+.password-control.view {
+	background: url(https://snipp.ru/demo/495/no-view.svg) 0 0 no-repeat;
 }
